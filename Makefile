@@ -2,17 +2,17 @@ all: count numberize randomize
 
 count: .bin/count
 
-.bin/count: $(shell find ./cmd/count -type f -name '*.go')
+.bin/count: $(shell find ./cmd/count ./internal/app/count ./internal/pkg -type f -name '*.go')
 	go build -o .bin/count ./cmd/count
 
 numberize: .bin/numberize
 
-.bin/numberize: $(shell find ./cmd/numberize -type f -name '*.go')
+.bin/numberize: $(shell find ./cmd/numberize ./internal/app/numberize ./internal/pkg -type f -name '*.go')
 	go build -o .bin/numberize ./cmd/numberize
 
 randomize: .bin/randomize
 
-.bin/randomize: $(shell find ./cmd/randomize -type f -name '*.go')
+.bin/randomize: $(shell find ./cmd/randomize ./internal/app/randomize ./internal/pkg -type f -name '*.go')
 	go build -o .bin/randomize ./cmd/randomize
 
 .PHONY: deps

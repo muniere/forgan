@@ -5,19 +5,19 @@ import (
 	"github.com/spf13/pflag"
 )
 
-type Options struct {
-	IncludesHidden bool
-	Pattern        string
-	Verbose        bool
+type options struct {
+	includesHidden bool
+	pattern        string
+	verbose        bool
 }
 
-func Prepare(cmd *cobra.Command) {
+func assemble(cmd *cobra.Command) {
 	cmd.Flags().BoolP("all", "a", false, "Include hidden files or directories")
 	cmd.Flags().BoolP("verbose", "v", false, "Show verbose log messages")
-	cmd.Flags().StringP("pattern", "p", "", "Pattern to filter files")
+	cmd.Flags().StringP("pattern", "p", "", "pattern to filter files")
 }
 
-func Decode(flags *pflag.FlagSet) (*Options, error) {
+func decode(flags *pflag.FlagSet) (*options, error) {
 	includesHidden, err := flags.GetBool("all")
 	if err != nil {
 		return nil, err
@@ -33,10 +33,10 @@ func Decode(flags *pflag.FlagSet) (*Options, error) {
 		return nil, err
 	}
 
-	opts := &Options{
-		IncludesHidden: includesHidden,
-		Pattern:        pattern,
-		Verbose:        verbose,
+	opts := &options{
+		includesHidden: includesHidden,
+		pattern:        pattern,
+		verbose:        verbose,
 	}
 	return opts, nil
 }

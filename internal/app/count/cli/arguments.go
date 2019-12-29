@@ -1,6 +1,6 @@
 package cli
 
-func Normalize(source []string) ([]string, error) {
+func normalize(source []string) ([]string, error) {
 	if len(source) == 0 {
 		return []string{"."}, nil
 	} else {

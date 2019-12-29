@@ -1,5 +1,5 @@
 package cli
 
-func Normalize(source []string) ([]string, error) {
+func normalize(source []string) ([]string, error) {
 	return source, nil
 }

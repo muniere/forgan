@@ -1,4 +1,4 @@
-package count
+package cli
 
 import (
 	"os"
@@ -7,7 +7,6 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/muniere/forgan/internal/app/count/cli"
 	"github.com/muniere/forgan/internal/app/count/exe"
 )
 
@@ -19,27 +18,27 @@ func NewCommand() *cobra.Command {
 		},
 	}
 
-	cli.Prepare(cmd)
+	assemble(cmd)
 
 	return cmd
 }
 
 func run(cmd *cobra.Command, args []string) error {
-	ctx, err := cli.Parse(args, cmd.Flags())
+	ctx, err := parse(args, cmd.Flags())
 	if err != nil {
 		return err
 	}
 
-	if err := prepare(ctx.Options); err != nil {
+	if err := prepare(ctx.options); err != nil {
 		return err
 	}
 
-	opts, err := translate(ctx.Options)
+	opts, err := translate(ctx.options)
 	if err != nil {
 		return err
 	}
 
-	for _, p := range ctx.Paths {
+	for _, p := range ctx.paths {
 		if err := perform(p, opts); err != nil {
 			log.Warnf("%v", err)
 		}
@@ -48,8 +47,8 @@ func run(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func prepare(options *cli.Options) error {
-	if options.Verbose {
+func prepare(options *options) error {
+	if options.verbose {
 		log.SetLevel(log.TraceLevel)
 	} else {
 		log.SetLevel(log.InfoLevel)
@@ -66,10 +65,10 @@ func prepare(options *cli.Options) error {
 	return nil
 }
 
-func translate(options *cli.Options) (*exe.Options, error) {
+func translate(options *options) (*exe.Options, error) {
 	opts := &exe.Options{
-		IncludesHidden: options.IncludesHidden,
-		Pattern:        options.Pattern,
+		IncludesHidden: options.includesHidden,
+		Pattern:        options.pattern,
 	}
 	return opts, nil
 }

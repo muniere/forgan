@@ -4,25 +4,25 @@ import (
 	"github.com/spf13/pflag"
 )
 
-type Context struct {
-	Paths   []string
-	Options *Options
+type context struct {
+	paths   []string
+	options *options
 }
 
-func Parse(args []string, flags *pflag.FlagSet) (*Context, error) {
-	paths, err := Normalize(args)
+func parse(args []string, flags *pflag.FlagSet) (*context, error) {
+	paths, err := normalize(args)
 	if err != nil {
 		return nil, err
 	}
 
-	options, err := Decode(flags)
+	options, err := decode(flags)
 	if err != nil {
 		return nil, err
 	}
 
-	ctx := &Context{
-		Paths:   paths,
-		Options: options,
+	ctx := &context{
+		paths:   paths,
+		options: options,
 	}
 	return ctx, nil
 }

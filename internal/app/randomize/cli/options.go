@@ -5,25 +5,25 @@ import (
 	"github.com/spf13/pflag"
 )
 
-type Options struct {
-	Length    int
-	Start     int
-	Prefix    string
-	DryRun    bool
-	Overwrite bool
-	Verbose   bool
+type options struct {
+	length    int
+	start     int
+	prefix    string
+	dryRun    bool
+	overwrite bool
+	verbose   bool
 }
 
-func Prepare(cmd *cobra.Command) {
-	cmd.Flags().IntP("length", "l", 10, "Length of new names")
-	cmd.Flags().IntP("start", "s", 1, "Start number of new names")
-	cmd.Flags().StringP("prefix", "p", "", "Prefix for new names")
+func assemble(cmd *cobra.Command) {
+	cmd.Flags().IntP("length", "l", 10, "length of new names")
+	cmd.Flags().IntP("start", "s", 1, "start number of new names")
+	cmd.Flags().StringP("prefix", "p", "", "prefix for new names")
 	cmd.Flags().BoolP("dry-run", "n", false, "Do not perform action actually")
-	cmd.Flags().Bool("overwrite", false, "Overwrite existing files")
+	cmd.Flags().Bool("overwrite", false, "overwrite existing files")
 	cmd.Flags().BoolP("verbose", "v", false, "Show verbose messages")
 }
 
-func Decode(flags *pflag.FlagSet) (*Options, error) {
+func decode(flags *pflag.FlagSet) (*options, error) {
 	length, err := flags.GetInt("length")
 	if err != nil {
 		return nil, err
@@ -54,13 +54,13 @@ func Decode(flags *pflag.FlagSet) (*Options, error) {
 		return nil, err
 	}
 
-	opts := &Options{
-		Length:    length,
-		Start:     start,
-		Prefix:    prefix,
-		DryRun:    dryRun,
-		Overwrite: overwrite,
-		Verbose:   verbose,
+	opts := &options{
+		length:    length,
+		start:     start,
+		prefix:    prefix,
+		dryRun:    dryRun,
+		overwrite: overwrite,
+		verbose:   verbose,
 	}
 	return opts, nil
 }
